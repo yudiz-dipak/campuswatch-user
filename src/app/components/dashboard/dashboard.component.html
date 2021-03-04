@@ -1,0 +1,21 @@
+<div class="col-md-12">
+    <p routerLink="/dashboard/profile">Logged in as {{_http.auth.userData?.sFirstName + ' ' + _http.auth.userData?.sLastName}}</p>
+    <select class="form-control col-md-12" [(ngModel)]='currentLastSeen' (change)="updateLastSeen()">
+        <option value="online">Online</option>
+        <option value="offline">Offline</option>
+    </select>
+
+
+    <div class="menu mt-3">
+        <ul class="ul">
+            <li routerLinkActive='active'>
+                <a href="#" routerLink="/dashboard/chat">Chat</a>
+            </li>
+            <li routerLinkActive='active'>
+                <a href="#" routerLink="/dashboard/create-alert">New Alert</a>
+            </li>
+        </ul>
+        <button class="btn btn-danger ml-3" (click)="logout()">Logout</button>
+    </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,45 @@
+<form [formGroup]='loginForm' (ngSubmit)='loginUser()'>
+    <div class="card">
+
+        <div class="card-header">
+            <h2>Login form</h2>
+        </div>
+
+        <div class="card-body">
+
+            <div class="form-group">
+                <label class="control-label col-md-12">Email</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" formControlName="sEmail"
+                        placeholder="Enter Your Email Address">
+                    <ng-container *ngIf="isFormSubmitted && lf.sEmail.errors">
+                        <span class="text-danger" *ngIf="lf.sEmail.errors?.required">
+                            Email Address required!
+                        </span>
+                        <span class="text-danger" *ngIf="lf.sEmail.errors?.pattern">
+                            Invalid Email Address
+                        </span>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-12">Password</label>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" formControlName="sPassword"
+                        placeholder="Enter Password">
+                    <span class="text-danger" *ngIf="isFormSubmitted && lf.sPassword.errors?.required">
+                        Password is required!
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <p>Or <button class="btn btn-link" routerLink='/register'> Sign up </button> Instead!</p>
+            <p>Forgot Password? <button class="btn btn-link" routerLink='/forgot-password'> Reset </button></p>
+        </div>
+    </div>
+</form>

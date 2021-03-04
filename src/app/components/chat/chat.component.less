@@ -1,0 +1,45 @@
+.chat-section {
+  padding: 15px 20px;
+  max-height: 260px;
+  overflow-y: auto;
+
+  .me {
+    background: #6495ED;
+    color: #fff;
+    padding: 10px;
+    text-align: right;
+  }
+
+  .disp {
+    background: #5F9EA0;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+  }
+}
+
+.alert-card {
+  cursor: pointer;
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+
+  &:hover,
+  &.active {
+    background: #95C8D8;
+    color: #fff;
+  }
+
+  .card-body {
+    text-align: center;
+  }
+
+  .counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #f00;
+    color: #fff;
+    border-radius: 100%;
+  }
+}

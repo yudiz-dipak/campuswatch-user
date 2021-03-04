@@ -1,0 +1,84 @@
+<ng-container *ngIf="!processing">
+
+    <!--  -->
+    <div class="col-md-12" *ngIf="allAlertData?.length; else noDataBlock">
+
+        <label class="control-label">Select Alert</label>
+
+        <div class="row">
+            <div class="card alert-card col-md-3 ml-3" [class.active]="selectedAlert == alertItem"
+                *ngFor="let alertItem of allAlertData" (click)="selectAlert(alertItem)">
+                <div class="card-body">
+                    <p>{{alertItem.infoData.alertType}}</p>
+                </div>
+                <span class="counter">{{alertItem.chatData.length}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!--  -->
+    <ng-template #noDataBlock>
+        <div class="col-md-12 mt-5 text-center">
+            No Alerts Found!<a href="#" routerLink="/dashboard/create-alert">Create New</a>
+        </div>
+    </ng-template>
+
+    <!--  -->
+    <ng-container *ngIf="step === 2 && selectedAlert">
+
+        <div class="col-md-12 mt-3">
+            <select class="form-control" (change)="updateLatLong($event.target.value)">
+                <option value="null">Select Lat Long</option>
+                <option *ngFor="let latLong of latLongArray; let i = index" [value]='i'>
+                    Lat: {{latLong.lat}}, Long: {{latLong.long}}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-12 mt-3" *ngIf="allAlertCategories?.length">
+            <select class="form-control" (change)="updateAlertType($event.target.value)">
+                <option value="null">Change Alert Type</option>
+                <ng-container *ngFor="let alertCategoryItem of allAlertCategories">
+                    <option *ngIf="alertCategoryItem.sTitle != selectedAlert.infoData.alertType"
+                        [value]='alertCategoryItem._id'>
+                        {{alertCategoryItem.sTitle}}
+                    </option>
+                </ng-container>
+            </select>
+        </div>
+
+        <div class="chat-section mt-3 border" *ngIf="selectedAlert?.chatData?.length" #chatSection>
+
+            <div *ngFor="let chatItem of selectedAlert.chatData">
+                {{chatItem.sender != 'user' ? 'Dispacher: ' : ''}}
+                <p [ngClass]="chatItem.sender == 'user' ? 'me' : 'disp'">
+                    <span *ngIf="chatItem?.type == 'text'"> {{chatItem.message}}</span>
+                    <span *ngIf="chatItem?.type == 'image'">
+                        <img [src]="chatItem.imageUrl" alt="Chat Image" height="100" width="auto" />
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="send-section mt-3">
+            <input type="file" class="form-control" accept="image/*" #chatImageInput (change)="onFileSelected($event.target.files)" multiple
+                [disabled]="newMessage?.length">
+            <textarea class="form-control mt-2" placeholder="Enter New Message" [(ngModel)]="newMessage" #newMessageDom
+                [disabled]="newFiles?.length"></textarea>
+            <button class="btn btn-sm btn-primary mt-2" (click)="sendMessage()">Send</button>
+        </div>
+    </ng-container>
+
+</ng-container>
+<button data-toggle="modal" data-target="#alert-resolved-modal" style="display: none" id='modalBtn'></button>
+
+<div class="modal" id="alert-resolved-modal" #alertResolvedModal>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Alert {{selectedAlert?.infoData?.alertType}} has been marked as resolved from dispatcher.</p>
+                <button class="btn btn-success" (click)="resolveAlert()">Yes This alert has been resolved</button>
+                <button class="btn btn-danger" (click)="unresolveAlert()">No i still need help!</button>
+            </div>
+        </div>
+    </div>
+</div>

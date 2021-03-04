@@ -1,0 +1,21 @@
+<ng-container *ngIf="alertCategories && alertCategories?.length">
+
+    <div class="form-group">
+        <label class="control-label">Provider</label>
+        <input type="text" class="form-control" [value]="newAlertObj.providerId" readonly disabled />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Select Alert Type</label>
+        <select class="form-control" [(ngModel)]="newAlertObj.alertCategoryId">
+            <option value="null">Select Type</option>
+            <option *ngFor="let alertCatItem of alertCategories" [value]="alertCatItem._id">
+                {{alertCatItem.sTitle}}
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-12">
+        <button class="btn btn-success" (click)="createAlert()">Create Alert</button>
+    </div>
+</ng-container>

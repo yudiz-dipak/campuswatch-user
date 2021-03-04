@@ -1,0 +1,27 @@
+.menu {
+  display: flex;
+
+  ul {
+    flex: 1;
+    list-style-type: none;
+    display: flex;
+    background: #72A0C1;
+    color: #fff;
+    margin-bottom: 0px;
+
+    li {
+      padding: 5px 20px;
+      cursor: pointer;
+
+      &.active,
+      &:hover {
+        background: #00308F;
+      }
+
+      a {
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+}
