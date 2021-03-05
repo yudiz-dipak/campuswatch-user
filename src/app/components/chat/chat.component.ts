@@ -139,7 +139,9 @@ export class ChatComponent implements OnInit {
           }
         })
       }
-      this.chatSection.nativeElement.scrollTop = this.chatSection.nativeElement.scrollHeight
+      if (this.chatSection && this.chatSection.nativeElement) {
+        this.chatSection.nativeElement.scrollTop = this.chatSection.nativeElement.scrollHeight
+      }
     }, 100)
   }
 

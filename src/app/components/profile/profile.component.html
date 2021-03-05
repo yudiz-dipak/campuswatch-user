@@ -1,137 +1,136 @@
 <ng-container *ngIf="updateProfileForm">
-    <form [formGroup]='updateProfileForm' (ngSubmit)='updateProfile()'>
-        <div class="card">
 
-            <div class="card-header">
-                <h2>My Profile</h2>
+    <!--  -->
+    <div class="custom-control custom-switch text-center">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1" [(ngModel)]="showChangePassword"
+            [ngModelOptions]="{standalone: true}">
+        <label class="custom-control-label" for="customSwitch1">Change Password
+        </label>
+    </div>
+
+    <!--  -->
+    <ng-container *ngIf="!showChangePassword; else changePasswordSection">
+        <form [formGroup]='updateProfileForm' (ngSubmit)='updateProfile()'>
+            <div class="card mt-3">
+
+                <div class="card-header">
+                    <h2>Update Profile</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <!-- Profile Picture -->
+                    <div class="form-group">
+                        <label class="control-label col-md-12">Your Profile Picture</label>
+                        <div class="col-md-12 text-center">
+                            <img [src]="imageSrc || 'assets/images/default-user.jpeg'" class='profile-pic'
+                                height="100px" (click)='fileSelector.click()'>
+                            <input type='file' accept='image/*' style='display: none;' #fileSelector
+                                (change)='onFileSelected($event.target.files)' />
+                        </div>
+                    </div>
+
+                    <!--  -->
+                    <div class="form-group">
+                        <label class="control-label col-md-12">Your Name</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" formControlName="sName"
+                                placeholder="Enter First name">
+                            <span class="text-danger" *ngIf="isFormSubmitted && pf.sName.errors?.required">
+                                First Name is required!
+                            </span>
+                        </div>
+                    </div>
+
+                    <!--  -->
+                    <div class="form-group">
+                        <label class="control-label col-md-12">Email</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" formControlName="sEmail"
+                                placeholder="Enter Your Email Address">
+                            <ng-container *ngIf="isFormSubmitted && pf.sEmail.errors">
+                                <span class="text-danger" *ngIf="pf.sEmail.errors?.required">
+                                    Email Address required!
+                                </span>
+                                <span class="text-danger" *ngIf="pf.sEmail.errors?.pattern">
+                                    Invalid Email Address
+                                </span>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success"> Update Profile </button>
+                </div>
             </div>
+        </form>
+    </ng-container>
 
-            <div class="card-body">
-                <div class="form-group">
-                    <label class="control-label col-md-12">First Name</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sFirstName"
-                            placeholder="Enter First name">
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sFirstName.errors?.required">
-                            First Name is required!
-                        </span>
-                    </div>
+    <ng-template #changePasswordSection>
+        <form [formGroup]='changePasswordForm' (ngSubmit)='changePassword()'>
+            <div class="card mt-3">
+
+                <div class="card-header">
+                    <h2>Change Password</h2>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-12">Last Name</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sLastName"
-                            placeholder="Enter Last name">
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sLastName.errors?.required">
-                            Last Name is required!
-                        </span>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-12">Current Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" placeholder="Current Password"
+                                formControlName="sOldPassword">
+                            <ng-container *ngIf="isFormSubmitted && cf?.sOldPassword?.errors">
+                                <span class="text-danger" *ngIf="cf?.sOldPassword?.errors?.required">
+                                    Please Enter Your Current Password
+                                </span>
+                                <span class="text-danger" *ngIf="cf?.sOldPassword?.errors?.minlength">
+                                    Minimum Length of password is 6
+                                </span>
+                            </ng-container>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-12">Email</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sEmail"
-                            placeholder="Enter Your Email Address">
-                        <ng-container *ngIf="isFormSubmitted && pf.sEmail.errors">
-                            <span class="text-danger" *ngIf="pf.sEmail.errors?.required">
-                                Email Address required!
+                    <div class="form-group">
+                        <label class="control-label col-md-12">Update Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" formControlName="sNewPassword"
+                                placeholder="Update Password">
+                            <ng-container *ngIf="isFormSubmitted && cf?.sNewPassword?.errors">
+                                <span class="text-danger" *ngIf="cf?.sNewPassword?.errors?.required">
+                                    Please Enter Your New Password
+                                </span>
+                                <span class="text-danger" *ngIf="cf?.sNewPassword?.errors?.minlength">
+                                    Minimum Length of password is 6
+                                </span>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-12">Confirm Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" placeholder="Confirm Your Password"
+                                formControlName="sNewRetypedPassword">
+                            <span class="text-danger"
+                                *ngIf="isFormSubmitted && cf?.sNewRetypedPassword?.errors?.required">
+                                Please Confirm your password
                             </span>
-                            <span class="text-danger" *ngIf="pf.sEmail.errors?.pattern">
-                                Invalid Email Address
+                            <span class="text-danger"
+                                *ngIf="isFormSubmitted && cf?.sNewRetypedPassword?.errors?.mismatch">
+                                Confirm password does not match with your new password!
                             </span>
-                        </ng-container>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-12">Address</label>
-                    <div class="col-md-6">
-                        <textarea class="form-control" formControlName="sAddress"
-                            placeholder="Enter Your Address"></textarea>
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sFirstName.errors?.required">
-                            Last Name is required!
-                        </span>
-                    </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success"> Change Password </button>
                 </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-12">Suite</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sSuite" placeholder="Enter Suite Name">
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sSuite.errors?.required">
-                            Suite Name is required!
-                        </span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-12">City</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sCity" placeholder="Enter City name">
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sCity.errors?.required">
-                            City Name is required!
-                        </span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-12">State</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sState" placeholder="Enter State name">
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sState.errors?.required">
-                            State Name is required!
-                        </span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-12">Enter Phone Number</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="sPhoneNumber"
-                            placeholder="Enter Phone Number!">
-                        <span class="text-danger" *ngIf="isFormSubmitted && pf.sPhoneNumber.errors?.required">
-                            Phone Number is required!
-                        </span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-12">Zip Code</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" formControlName="nZipCode" placeholder="Enter Notes!">
-                        <ng-container *ngIf="isFormSubmitted && pf.nZipCode.errors">
-                            <span class="text-danger" *ngIf="pf.nZipCode.errors?.required">
-                                Email Address required!
-                            </span>
-                            <span class="text-danger" *ngIf="pf.nZipCode.errors?.pattern">
-                                Invalid Zip Code
-                            </span>
-                        </ng-container>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-12">In App Purchase</label>
-                    <div class="col-md-6">
-                        <label>
-                            <input type="radio" formControlName="isSubscribed" name="isSubscribed" [value]="true" [checked]="pf.isSubscribed.value">Yes
-                        </label>
-                        <label>
-                            <input type="radio" formControlName="isSubscribed" name="isSubscribed" [value]="false"  [checked]="!pf.isSubscribed.value">No
-                        </label>
-                        <p class="text-danger" *ngIf="isFormSubmitted && pf.isSubscribed.errors?.required">
-                            Please select weather you have performed in app purchase!
-                        </p>
-                    </div>
-                </div>
-
             </div>
+        </form>
+    </ng-template>
 
-            <div class="card-footer">
-                <button type="submit" class="btn btn-success">Update Profile</button>
-            </div>
-        </div>
-    </form>
 </ng-container>

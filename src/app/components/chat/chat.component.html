@@ -8,10 +8,11 @@
         <div class="row">
             <div class="card alert-card col-md-3 ml-3" [class.active]="selectedAlert == alertItem"
                 *ngFor="let alertItem of allAlertData" (click)="selectAlert(alertItem)">
+                <span class="badge badge-danger counter">{{alertItem.chatData.length}}</span>
                 <div class="card-body">
                     <p>{{alertItem.infoData.alertType}}</p>
                 </div>
-                <span class="counter">{{alertItem.chatData.length}}</span>
+                
             </div>
         </div>
     </div>

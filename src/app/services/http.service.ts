@@ -17,7 +17,7 @@ export class HttpService {
   }
 
   // 
-  constructor(private http: HttpClient, public auth: AuthService, private router: Router) {
+  constructor(public http: HttpClient, public auth: AuthService, private router: Router) {
     if (this.auth.isLoggedIn()) {
       this.updateHeaderToken(this.auth.getToken())
       let userId = localStorage.getItem('userId')

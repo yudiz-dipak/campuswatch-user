@@ -14,7 +14,9 @@ export const environment = {
     storageBucket: "campuswatch-c7e0c.appspot.com",
     messagingSenderId: "972920901938",
     appId: "1:972920901938:web:c7ba34f11fc42359e7072b",
-  }
+  },
+  hmr: false,
+  S3_BUCKET_URL: 'https://campus-watch-panel.s3.ap-south-1.amazonaws.com/'
 };
 environment.ApiURL = environment.BaseURL + "/api/v1/";
 

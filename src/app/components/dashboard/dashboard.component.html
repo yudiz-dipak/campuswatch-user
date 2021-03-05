@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <p routerLink="/dashboard/profile">Logged in as {{_http.auth.userData?.sFirstName + ' ' + _http.auth.userData?.sLastName}}</p>
+    <p routerLink="/dashboard/profile">Logged in as {{_http.auth.userData?.sName}}</p>
     <select class="form-control col-md-12" [(ngModel)]='currentLastSeen' (change)="updateLastSeen()">
         <option value="online">Online</option>
         <option value="offline">Offline</option>
