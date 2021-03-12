@@ -19,6 +19,7 @@ import { NewAlertComponent } from './components/new-alert/new-alert.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { InAppComponent } from './componenets/in-app/in-app.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     NewAlertComponent,
     DashboardComponent,
     ForgotPasswordComponent,
-    ProfileComponent
+    ProfileComponent,
+    InAppComponent
   ],
   imports: [
     BrowserModule,

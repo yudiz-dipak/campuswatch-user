@@ -23,18 +23,18 @@ export class ProfileComponent implements OnInit {
   isFormSubmitted: boolean = false
 
   // 
-  constructor(private http: HttpService, private toast: ToastrService) { }
+  constructor(private httpService: HttpService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.init()
   }
 
   init() {
-    if (!this.http.auth.isLoggedIn()) {
-      this.http.navigate('/login')
+    if (!this.httpService.auth.isLoggedIn()) {
+      this.httpService.navigate('/login')
     }
-    if (!this.http.auth.userData) {
-      this.http.auth._socket.eventService.subscribe('userDataFound', () => {
+    if (!this.httpService.auth.userData) {
+      this.httpService.auth._socket.eventService.subscribe('userDataFound', () => {
         this.prepareForm()
       })
     }
@@ -62,16 +62,16 @@ export class ProfileComponent implements OnInit {
       sContentType: file.type,
       sFileName: file.name
     }
-    this.http.post('user/signedurl/profilepicture', payload).subscribe((response: any) => {
+    this.httpService.post('user/signedurl/profilepicture', payload).subscribe((response: any) => {
       let sPath = response.data.sPath,
         sUrl = response.data.sUrl;
 
       // 
-      this.http.http.put(sUrl, file).subscribe(response => {
+      this.httpService.http.put(sUrl, file).subscribe(response => {
         let payload2 = {
           sProfilePicture: sPath
         }
-        this.http.post('user/set/sProfilePicture', payload2).subscribe((response: any) => {
+        this.httpService.post('user/set/sProfilePicture', payload2).subscribe((response: any) => {
           this.imageSrc = environment.S3_BUCKET_URL + sPath
         })
       })
@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
   }
 
   prepareForm() {
-    const userData = this.http.auth.userData
+    const userData = this.httpService.auth.userData
     this.updateProfileForm = new FormGroup({
       'sName': new FormControl(userData.sName, [Validators.required]),
       'sEmail': new FormControl(userData.sEmail, [Validators.required, Validators.email]),
@@ -106,13 +106,13 @@ export class ProfileComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.updateProfileForm.valid) {
       const payload = this.updateProfileForm.value
-      if (payload.sEmail == this.http.auth.userData.sEmail) {
+      if (payload.sEmail == this.httpService.auth.userData.sEmail) {
         delete payload.sEmail
       }
-      this.http.put('user/profile', payload).subscribe((response: any) => {
+      this.httpService.put('user/profile', payload).subscribe((response: any) => {
         console.log("User Profile updated! ", response)
         this.toast.success(response.message)
-        this.http.auth.userData = response.data
+        this.httpService.auth.userData = response.data
       }, (error) => {
         this.toast.error('Something went wrong')
         console.log("Error in user registration: ", error)
@@ -124,11 +124,11 @@ export class ProfileComponent implements OnInit {
     this.isFormSubmitted = true;
     if (!this.changePasswordForm.valid) return
     const payload = this.changePasswordForm.value
-    this.http.post('user/password/change', payload).subscribe((response: any) => {
+    this.httpService.post('user/password/change', payload).subscribe((response: any) => {
       console.log("Password changed! ", response)
       this.toast.success(response.message)
-      this.http.auth.userData.sPassword = this.pf.sPassword.value
-      // this.http.auth.userData = response.data
+      this.httpService.auth.userData.sPassword = this.pf.sPassword.value
+      // this.httpService.auth.userData = response.data
     }, (error) => {
       let message = (error && error.error && error.error.message) ? error.error.message : 'Something went wrong'
       this.toast.error(message)

@@ -8,6 +8,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { NewAlertComponent } from "./components/new-alert/new-alert.component";
 import { ProfileComponent } from "./components/profile/profile.component";
+import { InAppComponent } from "./componenets/in-app/in-app.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: "chat", component: ChatComponent },
       { path: "create-alert", component: NewAlertComponent },
       { path: "profile", component: ProfileComponent },
+      { path: "in-app", component: InAppComponent }
     ],
   },
 ];

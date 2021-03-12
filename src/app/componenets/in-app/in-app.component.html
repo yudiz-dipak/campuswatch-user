@@ -1,0 +1,19 @@
+<form (ngSubmit)='onSubmit()' novalidate>
+    <div class='card'>
+        <div class='card-header'>
+            <h2>In App Purchase</h2>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label class="control-label">Receipt</label>
+                <div class="col-md-8">
+                    <textarea class="form-control" [(ngModel)]="receipt" name="receipt" placeholder="Enter Receipt"></textarea>
+                    <span *ngIf='isSubmitted && !receipt' class="text-danger">Please Enter Receipt</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <input type="submit" class="btn btn-primary" value="Send">
+        </div>
+    </div>
+</form>
