@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -13,7 +14,11 @@ export class InAppComponent implements OnInit {
   isSubmitted: boolean
 
   // 
-  constructor(public httpService: HttpService) { }
+  selectedAppType: string
+  androidOrderId
+
+  // 
+  constructor(public httpService: HttpService, private toastr: ToastrService) { }
 
   // 
   ngOnInit(): void {
@@ -23,6 +28,8 @@ export class InAppComponent implements OnInit {
   // 
   init() {
     this.isSubmitted = false
+    this.selectedAppType = 'ios'
+    this.androidOrderId = '1_campuswatch'
   }
 
   // 
@@ -31,15 +38,24 @@ export class InAppComponent implements OnInit {
     if (!this.receipt) return
 
     // 
+    let purchaseData = (this.selectedAppType == 'ios') ? { transactionReceipt: this.receipt } : {
+      productId: this.androidOrderId,
+      purchaseToken: this.receipt
+    }
+
+    // 
     let payload = {
-      receipt: this.receipt
+      appType: this.selectedAppType,
+      purchase: purchaseData
     }
 
     // 
     this.httpService.post('user/in-app-purchase/subscribe', payload).subscribe((response: any) => {
       console.log("On Response: ", response)
+      this.toastr.success(response.message)
     }, (err: any) => {
       console.log("On Error: ", err)
+      this.toastr.error(err.message)
     }, () => {
       this.isSubmitted = false
     })

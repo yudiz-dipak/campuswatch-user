@@ -185,9 +185,10 @@ export class ChatComponent implements OnInit {
       for (let file of allFiles) {
         this._http.auth._socket.socket.emit("sendmessage", {
           alertId: this.selectedAlert.infoData._id,
-          userId: this._http.auth.userId,
+          from: this._http.auth.userId,
           type: 'image',
           sContentType: file.type,
+          sFileName: file.name,
           fileObj: file
         })
       }
@@ -201,10 +202,9 @@ export class ChatComponent implements OnInit {
   sendTextMessage() {
     const payload = {
       alertId: this.selectedAlert.infoData._id,
-      from: this._http.auth.userId,
       message: this.newMessage,
       type: 'text',
-      userId: this._http.auth.userId
+      from: this._http.auth.userId
     }
     this._http.auth._socket.socket.emit('sendmessage', payload)
     this.newMessage = '';

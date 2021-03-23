@@ -20,7 +20,7 @@ export class SocketService {
       query: {
         token: token,
       },
-      reconnection: false
+      reconnection: true
     });
     this.socket.on("connect", () => {
       this.bindSocketEvents();

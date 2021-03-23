@@ -1,9 +1,20 @@
 <form (ngSubmit)='onSubmit()' novalidate>
-    <div class='card'>
+    <div class='card mt-3'>
         <div class='card-header'>
             <h2>In App Purchase</h2>
         </div>
         <div class="card-body">
+
+            <div class="form-group">
+                <label class="control-label">App Type</label>
+                <div class="col-md-8">
+                    <select class="form-control" name="selectedAppType" [(ngModel)]="selectedAppType">
+                        <option value="ios">IOS</option>
+                        <option value="android">Android</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="control-label">Receipt</label>
                 <div class="col-md-8">
